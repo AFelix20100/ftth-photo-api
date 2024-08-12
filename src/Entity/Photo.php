@@ -11,41 +11,59 @@ use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Controller\PhotoByPrestationController;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use App\ApiResource\PhotoByPrestationProvider;
 use App\Controller\PhotoByReferenceController;
+use App\Controller\PhotoByPrestationController;
+use App\ApiResource\PhotoByCommandeInterneProvider;
+use App\Controller\PhotoByCommandeInterneController;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
-#[ApiResource(operations: [
-    new GetCollection(
-        name: "get_photos_by_reference",
-        uriTemplate: "/photos/by-reference",
-        controller: PhotoByReferenceController::class,
-        openapiContext: [
-            'summary' => 'Retrieve photos by referencePrestation or referenceCommandeInterne',
-            'parameters' => [
-                [
-                    'name' => 'referenceCommandeInterne',
-                    'in' => 'query',
-                    'description' => 'The referenceCommandeInterne to filter photos by.',
-                    'required' => false,
-                    'schema' => [
-                        'type' => 'string',
-                    ],
-                ],
-                [
-                    'name' => 'referencePrestation',
-                    'in' => 'query',
-                    'description' => 'The referencePrestation to filter photos by.',
-                    'required' => false,
-                    'schema' => [
-                        'type' => 'string',
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            uriTemplate: "/photos/by-commande-interne",
+            controller: PhotoByCommandeInterneController::class,
+            openapiContext: [
+                'summary' => 'Retrieve photos by referenceCommandeInterne',
+                'parameters' => [
+                    [
+                        'name' => 'referenceCommandeInterne',
+                        'in' => 'query',
+                        'description' => 'The referenceCommandeInterne to filter photos by.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'string',
+                        ],
                     ],
                 ],
             ],
-        ],
-    ),
-])]
+        ),
+    ]
+)]
+#[ApiResource(
+    operations: [
+
+        new GetCollection(
+            uriTemplate: "/photos/by-prestation",
+            controller: PhotoByPrestationController::class,
+            openapiContext: [
+                'summary' => 'Retrieve photos by referencePrestation',
+                'parameters' => [
+                    [
+                        'name' => 'referencePrestation',
+                        'in' => 'query',
+                        'description' => 'The referencePrestation to filter photos by.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+        ),
+    ]
+)]
 class Photo
 {
     #[ORM\Id]
