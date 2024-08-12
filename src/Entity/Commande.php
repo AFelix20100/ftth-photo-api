@@ -2,21 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use DateTimeZone;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
-// use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\PhotoByCommandeInterneController;
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
-// #[ApiResource]
+// #[ApiResource()]
+// #[ApiFilter(SearchFilter::class, properties: [
+//     'referenceCommandeInterne' => 'iexact',
+//     'referencePrestation' => 'iexact',
+// ])]
 class Commande
 {
     #[ORM\Id]
@@ -25,9 +35,11 @@ class Commande
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[ApiFilter(SearchFilter::class)]
     private ?string $referencePrestation = null;
 
     #[ORM\Column(length: 255)]
+    #[ApiFilter(SearchFilter::class)]
     private ?string $referenceCommandeInterne = null;
 
     #[ORM\Column]

@@ -4,15 +4,48 @@ namespace App\Entity;
 
 use DateTimeZone;
 use DateTimeImmutable;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\PhotoByPrestationController;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use App\Controller\PhotoByReferenceController;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
-#[ApiResource]
+#[ApiResource(operations: [
+    new GetCollection(
+        name: "get_photos_by_reference",
+        uriTemplate: "/photos/by-reference",
+        controller: PhotoByReferenceController::class,
+        openapiContext: [
+            'summary' => 'Retrieve photos by referencePrestation or referenceCommandeInterne',
+            'parameters' => [
+                [
+                    'name' => 'referenceCommandeInterne',
+                    'in' => 'query',
+                    'description' => 'The referenceCommandeInterne to filter photos by.',
+                    'required' => false,
+                    'schema' => [
+                        'type' => 'string',
+                    ],
+                ],
+                [
+                    'name' => 'referencePrestation',
+                    'in' => 'query',
+                    'description' => 'The referencePrestation to filter photos by.',
+                    'required' => false,
+                    'schema' => [
+                        'type' => 'string',
+                    ],
+                ],
+            ],
+        ],
+    ),
+])]
 class Photo
 {
     #[ORM\Id]

@@ -40,4 +40,24 @@ class PhotoRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByReferencePrestation(string $referencePrestation)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.commande', 'c')
+            ->where('c.referencePrestation = :referencePrestation')
+            ->setParameter('referencePrestation', $referencePrestation)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByReferenceCommandeInterne(string $referenceCommandeInterne)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.commande', 'c')
+            ->where('c.referenceCommandeInterne = :referenceCommandeInterne')
+            ->setParameter('referenceCommandeInterne', $referenceCommandeInterne)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -4,25 +4,42 @@ namespace App\Entity;
 
 use DateTimeZone;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
-// use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\InterventionRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\PhotoByInterventionController;
 
 #[ORM\Entity(repositoryClass: InterventionRepository::class)]
-// #[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(
+            name: "get_photos_by_intervention",
+            uriTemplate: "/intervention/{numeroIntervention}",
+            controller: PhotoByInterventionController::class,
+            openapiContext: [
+                "summary" => "Récupérer les photos par référence d'intervention",
+                "description" => "Cette opération permet de récupérer toutes les photos associées à une intervention spécifique en utilisant sa référence unique. En fournissant le numéro d'intervention dans la requête, vous obtenez une liste de toutes les photos liées à cette intervention."
+            ]
+        )
+    ]
+)]
 class Intervention
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ApiProperty(identifier: false)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[ApiProperty(identifier: true)]
     private ?string $numeroIntervention = null;
 
     #[ORM\Column(length: 255)]
