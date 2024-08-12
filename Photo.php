@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ApiResource]
@@ -23,11 +25,14 @@ class Photo
     #[ORM\Column(length: 255)]
     private ?string $filePath = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
-    private ?Commande $commande = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $referencePrestation = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
-    private ?Intervention $intervention = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $commandeInterne = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $intervention = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -49,6 +54,30 @@ class Photo
         $this->updatedAt = new DateTimeImmutable('now', new DateTimeZone('Europe/Paris'));
     }
 
+    #[Assert\Callback]
+    public function validateUniqueReference(ExecutionContextInterface $context)
+    {
+        $fields = [
+            'referencePrestation' => $this->referencePrestation,
+            'commandeInterne' => $this->commandeInterne,
+            'intervention' => $this->intervention,
+        ];
+
+        $nonNullFields = array_filter($fields, fn($value) => !is_null($value));
+
+        if (count($nonNullFields) > 1) {
+            $context->buildViolation('Only one of referencePrestation, commandeInterne, or intervention can be non-null.')
+                ->atPath('referencePrestation')
+                ->addViolation();
+        }
+
+        if (count($nonNullFields) === 0) {
+            $context->buildViolation('At least one of referencePrestation, commandeInterne, or intervention must be non-null.')
+                ->atPath('referencePrestation')
+                ->addViolation();
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,24 +95,36 @@ class Photo
         return $this;
     }
 
-    public function getCommande(): ?Commande
+    public function getReferencePrestation(): ?string
     {
-        return $this->commande;
+        return $this->referencePrestation;
     }
 
-    public function setCommande(?Commande $commande): static
+    public function setReferencePrestation(?string $referencePrestation): static
     {
-        $this->commande = $commande;
+        $this->referencePrestation = $referencePrestation;
 
         return $this;
     }
 
-    public function getIntervention(): ?Intervention
+    public function getCommandeInterne(): ?string
+    {
+        return $this->commandeInterne;
+    }
+
+    public function setCommandeInterne(?string $commandeInterne): static
+    {
+        $this->commandeInterne = $commandeInterne;
+
+        return $this;
+    }
+
+    public function getIntervention(): ?string
     {
         return $this->intervention;
     }
 
-    public function setIntervention(?Intervention $intervention): static
+    public function setIntervention(?string $intervention): static
     {
         $this->intervention = $intervention;
 
