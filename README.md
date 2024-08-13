@@ -38,11 +38,12 @@
 
 <br>
 
-## :dart: À propos ##
+## :dart: about ##
 
 Describe your project
 
-## :sparkles: Fonctionnalités ##
+## :sparkles:   <a href="#sparkles-features">Fonctionnalités</a> &#xa0; | &#xa0;
+ ##
 
 :heavy_check_mark: CRUD des commandes internes;\
 :heavy_check_mark: CRUD des prestations;\
@@ -57,7 +58,7 @@ Describe your project
 :heavy_check_mark: Documentation API Plateform généré;\
 
 
-## :rocket: Technologies ##
+## :rocket: technologies ##
 
 Voici la liste des outils et technologies utilisés pour ce projet.
 
@@ -69,7 +70,7 @@ Voici la liste des outils et technologies utilisés pour ce projet.
 - [Git v2.40.0](https://git-scm.com/)
 - [Symfony CLI v5.10.2](https://symfony.com/download)
 
-## :white_check_mark: Exigences
+## :white_check_mark: requirements
 
 Pour faire fonctionner ce projet, vous devez avoir les outils suivants installés :
 
@@ -82,7 +83,7 @@ Pour faire fonctionner ce projet, vous devez avoir les outils suivants installé
 
 Pour les versions spécifiques de ces outils, veuillez vous référer à la section [Technologies](#rocket-technologies).
 
-## :checkered_flag: Démarrage rapide
+## :checkered_flag: starting
 
 Suivez ces étapes pour lancer rapidement le projet sur votre machine locale :
 
