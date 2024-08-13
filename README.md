@@ -48,6 +48,10 @@ La fonctionnalité d'envoi d'image est en cours de développement.
 
 ## :information_source: Informations ##
 
+J'ai décidé de réaliser le test technique en utilisant Symfony, car c'est un framework PHP très puissant et que je maîtrise bien. J'ai également intégré API Platform pour bénéficier de fonctionnalités utiles telles que la génération automatique de documentation, ainsi que du soutien de la communauté.
+
+J'ai abordé le projet étape par étape, en commençant par une base simple avec peu de fonctionnalités. Ensuite, j'ai progressivement complexifié le projet en ajoutant les différentes fonctionnalités et contraintes attendues.
+
 En raison de la programmation des différents composants en anglais, certains noms ont été choisis pour éviter l'utilisation de noms réservés par le système. Voici les traductions :
 
 FR => EN
