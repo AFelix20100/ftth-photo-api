@@ -1,5 +1,6 @@
 api_platform:
     title: FTTH-API-PHOTO
+    description: Cette API est conçue pour gérer et récupérer les photos associées à diverses entités. Elle inclut des points de terminaison pour obtenir des photos en fonction des références liées à des commandes internes, des prestations et des interventions. L'API facilite la gestion des ressources visuelles liées aux opérations commerciales et logistiques.
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
