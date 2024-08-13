@@ -70,9 +70,9 @@ Si vous souhaitez que les références de prestation et de commande interne ne s
 :heavy_check_mark: CRUD des prestations;\
 :heavy_check_mark: CRUD des interventions;\
 🚧: CRUD des images en utilisant les endpoints Photo;\
-:heavy_check_mark: Génération des références des commandes internes automatiquement;\
-:heavy_check_mark: Génération des références des prestations automatiquement;\
-:heavy_check_mark: Génération des références des interventions automatiquement;\
+:heavy_check_mark: Génération automatique des références des commandes internes;\
+:heavy_check_mark: Génération automatique des références des prestations;\
+:heavy_check_mark: Génération automatique des références des interventions ;\
 :heavy_check_mark: Récupération des photos avec la référence d'une commande;\
 :heavy_check_mark: Récupération des photos avec la référence d'une prestation;\
 :heavy_check_mark: Récupération des photos avec la référence d'une intervention;\
