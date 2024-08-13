@@ -55,6 +55,15 @@ FR => EN
 - INTERVENTION => OPERATION
 - PRESTATION => SERVICE
 
+Exemple de référence d'une commande interne : CMD-INT-2024-FFBE609643
+Exemple de référence d'une prestation : PREST-2024-FFBE609643
+Exemple de référence d'une intervention : INTERV-2024-FFBE609643
+
+J'ai supposé que lors de la création d'une "commande", une référence de commande interne est générée pour le service au sein de l'entreprise, ainsi qu'une référence de prestation pour le client.
+
+Si vous souhaitez que les références de prestation et de commande interne ne soient pas générées simultanément, il suffit de désactiver la fonction `validateReferences()` dans la classe `Command.php`.
+
+
 
 ## :sparkles: Fonctionnalités ##
 

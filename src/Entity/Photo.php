@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Controller\PhotoByInternalCommandController;
-use App\Controller\PhotoByOperationController;
 use DateTimeZone;
 use DateTimeImmutable;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping\PreUpdate;
@@ -14,12 +16,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use App\Controller\PhotoByServiceController;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Controller\PhotoByOperationController;
 //use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use App\Controller\PhotoByInternalCommandController;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\OpenApi\Model;
-use ApiPlatform\Metadata\Post;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -237,7 +239,9 @@ use ApiPlatform\Metadata\Post;
         ),
     ]
 )]
-
+/**
+ * TODO: Add image upload feature
+ */
 //#[ApiResource(
 //    operations: [
 //        new Post(
@@ -262,6 +266,29 @@ use ApiPlatform\Metadata\Post;
 //        )]
 //)]
 //#[Vich\Uploadable]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            openapiContext: [
+                'summary' => 'Récupérer la liste des photos',
+                'description' => 'Cette opération permet de récupérer la liste complète des photos disponibles. Vous pouvez obtenir toutes les entrées de la collection en appelant cette méthode.',
+            ]
+        ),
+        new Get(
+            openapiContext: [
+                'summary' => 'Récupérer une photo spécifique',
+                'description' => 'Cette opération permet de récupérer une photo spécifique en utilisant son identifiant unique. Fournissez l\'identifiant de l\'élément pour obtenir ses détails.',
+            ]
+        ),
+        new Delete(
+            openapiContext: [
+                'summary' => 'Supprimer une photo',
+                'description' => 'Cette opération permet de supprimer une photo spécifique en utilisant son identifiant unique. Assurez-vous de fournir l\'identifiant correct pour supprimer l\'élément désiré.',
+            ]
+        ),
+    ]
+)]
+
 class Photo
 {
     #[ORM\Id]
