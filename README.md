@@ -40,7 +40,10 @@
 
 ## :dart: À propos ##
 
-Describe your project
+FTTH-API-PHOTO est une API RESTful développée avec Symfony, destinée à gérer les photos associées aux commandes, aux prestations et aux interventions dans un système de gestion de réseau FTTH (Fiber to the Home). Cette API permet de récupérer et de mettre à jour des photos en fonction des références de commandes, de prestations et d'interventions.
+
+La fonctionnalité d'envoi d'image est en cours de développement.
+
 
 ## :sparkles: Fonctionnalités ##
 
