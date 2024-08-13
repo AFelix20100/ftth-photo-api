@@ -28,9 +28,11 @@
 
 <p align="center">
   <a href="#dart-À-propos">À propos</a> &#xa0; | &#xa0; 
+  <a href="#information_source-Informations">Informations</a> &#xa0; | &#xa0; 
   <a href="#sparkles-Fonctionnalités">Fonctionnalités</a> &#xa0; | &#xa0;
   <a href="#rocket-Technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-Exigences">Exigences</a> &#xa0; | &#xa0;
+  <a href="#gear-Configuration-de-la-base-de-données">Configuration de la BDD</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-Démarrage-rapide">Démarrage rapide</a> &#xa0; | &#xa0;
   <a href="#memo-licence">Licence</a> &#xa0; | &#xa0;
   <a href="https://github.com/AFelix20100" target="_blank">Auteur</a>
@@ -43,6 +45,15 @@
 FTTH-API-PHOTO est une API RESTful développée avec Symfony, destinée à gérer les photos associées aux commandes, aux prestations et aux interventions dans un système de gestion de réseau FTTH (Fiber to the Home). Cette API permet de récupérer et de mettre à jour des photos en fonction des références de commandes, de prestations et d'interventions.
 
 La fonctionnalité d'envoi d'image est en cours de développement.
+
+## :information_source: Informations ##
+
+En raison de la programmation des différents composants en anglais, certains noms ont été choisis pour éviter l'utilisation de noms réservés par le système. Voici les traductions :
+
+FR => EN
+- COMMANDE_INTERNE => INTERNAL_COMMAND
+- INTERVENTION => OPERATION
+- PRESTATION => SERVICE
 
 
 ## :sparkles: Fonctionnalités ##
