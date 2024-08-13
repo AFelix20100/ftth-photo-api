@@ -6,7 +6,6 @@ use App\Controller\PhotoByInternalCommandController;
 use App\Controller\PhotoByOperationController;
 use DateTimeZone;
 use DateTimeImmutable;
-use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping\PreUpdate;
@@ -15,6 +14,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use App\Controller\PhotoByServiceController;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+//use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Metadata\Post;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -42,7 +47,7 @@ use App\Controller\PhotoByServiceController;
                     '200' => [
                         'description' => 'Liste des photos associées à la commande interne spécifiée.',
                         'content' => [
-                            'application/json' => [
+                            'application/ld+json' => [
                                 'schema' => [
                                     'type' => 'array',
                                     'items' => [
@@ -62,13 +67,13 @@ use App\Controller\PhotoByServiceController;
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => 'La date et l\'heure de création de la photo au format ISO 8601.',
-                                                'example' => '2024-08-13T14:52:00',
+                                                'example' => '2024-08-13 14:52:00',
                                             ],
                                             'updatedAt' => [
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => 'La date et l\'heure de la dernière mise à jour de la photo au format ISO 8601.',
-                                                'example' => '2024-08-13T15:02:00',
+                                                'example' => '2024-08-13 15:02:00',
                                             ],
                                         ],
                                     ],
@@ -84,6 +89,7 @@ use App\Controller\PhotoByServiceController;
                     ],
                 ],
             ],
+            paginationEnabled: false,
         ),
     ]
 )]
@@ -113,7 +119,7 @@ use App\Controller\PhotoByServiceController;
                     '200' => [
                         'description' => 'Liste des photos associées à la prestation spécifiée.',
                         'content' => [
-                            'application/json' => [
+                            'application/ld+json' => [
                                 'schema' => [
                                     'type' => 'array',
                                     'items' => [
@@ -133,13 +139,13 @@ use App\Controller\PhotoByServiceController;
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => 'La date et l\'heure de création de la photo au format ISO 8601.',
-                                                'example' => '2024-08-13T14:52:00',
+                                                'example' => '2024-08-13 14:52:00',
                                             ],
                                             'updatedAt' => [
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => 'La date et l\'heure de la dernière mise à jour de la photo au format ISO 8601.',
-                                                'example' => '2024-08-13T15:02:00',
+                                                'example' => '2024-08-13 15:02:00',
                                             ],
                                         ],
                                     ],
@@ -155,6 +161,7 @@ use App\Controller\PhotoByServiceController;
                     ],
                 ],
             ],
+            paginationEnabled: false
         ),
     ]
 )]
@@ -184,7 +191,7 @@ use App\Controller\PhotoByServiceController;
                     '200' => [
                         'description' => "Liste des photos associées à l'intervention spécifiée. Chaque photo est représentée par un objet contenant les informations suivantes :",
                         'content' => [
-                            'application/json' => [
+                            'application/ld+json' => [
                                 'schema' => [
                                     'type' => 'array',
                                     'items' => [
@@ -204,13 +211,13 @@ use App\Controller\PhotoByServiceController;
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => "La date et l'heure de création de la photo au format ISO 8601.",
-                                                'example' => '2024-08-13T14:52:00',
+                                                'example' => '2024-08-13 14:52:00',
                                             ],
                                             'updatedAt' => [
                                                 'type' => 'string',
                                                 'format' => 'date-time',
                                                 'description' => "La date et l'heure de la dernière mise à jour de la photo au format ISO 8601.",
-                                                'example' => '2024-08-13T15:02:00',
+                                                'example' => '2024-08-13 15:02:00',
                                             ],
                                         ],
                                     ],
@@ -226,10 +233,35 @@ use App\Controller\PhotoByServiceController;
                     ],
                 ],
             ],
+            paginationEnabled: false
         ),
     ]
 )]
 
+//#[ApiResource(
+//    operations: [
+//        new Post(
+//            inputFormats: ['multipart' => ['multipart/form-data']],
+//            openapi: new Model\Operation(
+//                requestBody: new Model\RequestBody(
+//                    content: new \ArrayObject([
+//                        'multipart/form-data' => [
+//                            'schema' => [
+//                                'type' => 'object',
+//                                'properties' => [
+//                                    'file' => [
+//                                        'type' => 'string',
+//                                        'format' => 'binary'
+//                                    ]
+//                                ]
+//                            ]
+//                        ]
+//                    ])
+//                )
+//            )
+//        )]
+//)]
+//#[Vich\Uploadable]
 class Photo
 {
     #[ORM\Id]
@@ -238,7 +270,11 @@ class Photo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $filePath = null;
+    #[Assert\NotNull]
+    private ?string $imageName = null;
+
+//    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
+//    private ?File $imageFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     private ?Command $command = null;
@@ -271,17 +307,31 @@ class Photo
         return $this->id;
     }
 
-    public function getFilePath(): ?string
+    public function getImageName(): ?string
     {
-        return $this->filePath;
+        return $this->imageName;
     }
 
-    public function setFilePath(string $filePath): static
+    public function setImageName(string $imageName): static
     {
-        $this->filePath = $filePath;
+        $this->imageName = $imageName;
 
         return $this;
     }
+
+//    /**
+//     * @param File|UploadedFile|null $imageFile
+//     */
+//    public function setImageFile(?File $imageFile = null): void
+//    {
+//        $this->imageFile = $imageFile;
+//
+//        if (null !== $imageFile) {
+//            // It is required that at least one field changes if you are using doctrine
+//            // otherwise the event listeners won't be called and the file is lost
+//            $this->updatedAt = new \DateTimeImmutable();
+//        }
+//    }
 
     public function getCommand(): ?Command
     {

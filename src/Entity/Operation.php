@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use DateTimeZone;
 use DateTimeImmutable;
 use ApiPlatform\Metadata\Get;
@@ -14,29 +18,101 @@ use App\Repository\OperationRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Controller\PhotoByOperationController;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OperationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/intervention/{id}',
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => 'Obtenir une intervention spécifique',
+                'description' => 'Récupère les détails d\'une intervention en fonction de son ID.',
+                'parameters' => [
+                    [
+                        'name' => 'id',
+                        'in' => 'path',
+                        'description' => 'L’identifiant unique de la commande.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'integer',
+                            'example' => 1
+                        ]
+                    ],
+                ],
+            ],
+        ),
+        new GetCollection(
+            uriTemplate: '/interventions',
+            openapiContext: [
+                'summary' => 'Lister toutes les interventions',
+                'description' => 'Récupère une collection d\'interventions.',
+            ],
+        ),
+        new Post(
+            uriTemplate: '/intervention',
+            openapiContext: [
+                'summary' => 'Créer une nouvelle intervention',
+                'description' => 'Créer une nouvelle intervention avec les détails fournis.',
+            ],
+            normalizationContext: ['groups' => ['intervention:read']],
+            denormalizationContext: ['groups' => ['intervention:write']],
+        ),
+        new Patch(
+            uriTemplate: '/intervention/{id}',
+            openapiContext: [
+                'summary' => 'Mettre à jour une intervention',
+                'description' => 'Mise à jour partielle d\'une intervention existante.',
+            ],
+            normalizationContext: ['groups' => ['intervention:read']],
+            denormalizationContext: ['groups' => ['intervention:patch']],
+        ),
+
+        new Delete(
+            uriTemplate: '/intervention/{id}',
+            openapiContext: [
+                'summary' => 'Supprimer une intervention',
+                'description' => 'Supprime une intervention en fonction de son ID.',
+                'parameters' => [
+                    [
+                        'name' => 'id',
+                        'in' => 'path',
+                        'description' => 'L’identifiant unique de la commande à supprimer.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'integer',
+                            'example' => 1
+                        ]
+                    ],
+                ],
+            ],
+        )
+    ]
+)]
 class Operation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[ApiProperty(identifier: false)]
+    #[ApiProperty(identifier: true)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[ApiProperty(identifier: true)]
+    #[Groups(['intervention:read'])]
     private ?string $operationReference = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['intervention:write', 'intervention:read', 'intervention:patch'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['intervention:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Groups(['intervention:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**

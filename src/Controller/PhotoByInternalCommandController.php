@@ -38,9 +38,9 @@ class PhotoByInternalCommandController extends AbstractController
         foreach ($order->getPhotos() as $photo) {
             $photosArray[] = [
                 'id' => $photo->getId(),
-                'filePath' => $photo->getFilePath(),
-                'createdAt' => $photo->getCreatedAt(),
-                'updatedAt' => $photo->getUpdatedAt()
+                'filePath' => $photo->getImageName(),
+                'createdAt' => $photo->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updatedAt' => $photo->getUpdatedAt()->format('Y-m-d H:i:s')
             ];
         }
 

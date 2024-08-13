@@ -29,7 +29,7 @@ class PhotoByOperationController extends AbstractController
         foreach ($operation->getPhotos() as $photo) {
             $photosArray[] = [
                 'id' => $photo->getId(),
-                'filePath' => $photo->getFilePath(),
+                'filePath' => $photo->getImageName(),
                 'createdAt' => $photo->getCreatedAt()->format('Y-m-d H:i:s'),
                 'updatedAt' => $photo->getUpdatedAt()->format('Y-m-d H:i:s')
             ];

@@ -19,6 +19,7 @@ class AppFixtures extends Fixture
         $commands = [];
         for ($i = 0; $i < 3; $i++) {
             $command = new Command();
+            $command->setDescription($faker->sentence);
             $manager->persist($command);
             $commands[] = $command;
         }
@@ -27,11 +28,7 @@ class AppFixtures extends Fixture
         $operations = [];
         for ($i = 0; $i < 3; $i++) {
             $operation = new Operation();
-//            $operation->setOperationReference(sprintf('INT-%s-%s', date('Y'), $this->generateUniqueCode()));
             $operation->setDescription($faker->sentence);
-//            $operation->setCreatedAt(new \DateTimeImmutable());
-//            $operation->setUpdatedAt(new \DateTimeImmutable());
-
             $manager->persist($operation);
             $operations[] = $operation;
         }
@@ -39,9 +36,7 @@ class AppFixtures extends Fixture
         // Create 6 Photos
         for ($i = 0; $i < 6; $i++) {
             $photo = new Photo();
-            $photo->setFilePath(sprintf('/img/photo_%d.jpg', $i + 1));
-//            $photo->setCreatedAt(new \DateTimeImmutable());
-//            $photo->setUpdatedAt(new \DateTimeImmutable());
+            $photo->setImageName(sprintf('photo_%d.jpg', $i + 1));
 
             // Randomly assign a Photo to a Command or Operation
             if (rand(0, 1) === 0) {

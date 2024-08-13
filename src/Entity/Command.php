@@ -2,6 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use DateTimeZone;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,12 +20,81 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: CommandRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/commande/{id}',
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => 'Récupérer une commande spécifique',
+                'description' => 'Obtenez les détails d’une commande spécifique en utilisant son ID. Renvoie des informations détaillées sur la commande.',
+                'parameters' => [
+                    [
+                        'name' => 'id',
+                        'in' => 'path',
+                        'description' => 'L’identifiant unique de la commande.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'integer',
+                            'example' => 1
+                        ]
+                    ],
+                ],
+            ]
+        ),
+        new GetCollection(
+            uriTemplate: '/commandes',
+            openapiContext: [
+                'summary' => 'Récupérer la liste des commandes',
+                'description' => 'Obtenez toutes les commandes du système. Cette opération supporte la pagination',
+            ]
+        ),
+        new Post(
+            uriTemplate: '/commande',
+            openapiContext: [
+                'summary' => 'Créer une nouvelle commande',
+                'description' => 'Soumettez une nouvelle commande au système. Fournissez tous les détails nécessaires pour la création de la commande.',
+            ],
+            normalizationContext: ['groups' => ['command:read']],
+            denormalizationContext: ['groups' => ['command:write']],
+        ),
+        new Patch(
+            uriTemplate: '/commande/{id}',
+            openapiContext: [
+                'summary' => 'Mettre à jour partiellement une commande',
+                'description' => 'Cette opération permet de mettre à jour certaines propriétés d\'une commande existante en utilisant son ID.',
+            ],
+            normalizationContext: ['groups' => ['command:read']],
+            denormalizationContext: ['groups' => ['command:patch']],
+        ),
+        new Delete(
+            uriTemplate: 'commande/{id}',
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => 'Supprimer une commande',
+                'description' => 'Supprimez une commande du système en utilisant son ID. Cette action est irréversible.',
+                'parameters' => [
+                    [
+                        'name' => 'id',
+                        'in' => 'path',
+                        'description' => 'L’identifiant unique de la commande à supprimer.',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'integer',
+                            'example' => 1
+                        ]
+                    ],
+                ],
+            ]
+        ),
+    ]
+)]
 class Command
 {
     #[ORM\Id]
@@ -28,24 +103,30 @@ class Command
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[ApiFilter(SearchFilter::class)]
+    #[Groups(['command:read'])]
     private ?string $serviceReference = null;
 
     #[ORM\Column(length: 255)]
-    #[ApiFilter(SearchFilter::class)]
+    #[Groups(['command:read'])]
     private ?string $internalCommandReference = null;
 
     #[ORM\Column]
+    #[Groups(['command:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Groups(['command:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @var Collection<int, Photo>
      */
-    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'command')]
+    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'command', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $photos;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['command:write', 'command:read', 'command:patch'])]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -190,6 +271,18 @@ class Command
     {
         // Generate a unique alphanumeric code of the specified length
         return substr(bin2hex(random_bytes($length / 2)), 0, $length);
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
 }

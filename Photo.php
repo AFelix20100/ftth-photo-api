@@ -23,7 +23,7 @@ class Photo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $filePath = null;
+    private ?string $fileName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $referencePrestation = null;
@@ -85,7 +85,7 @@ class Photo
 
     public function getFilePath(): ?string
     {
-        return $this->filePath;
+        return $this->$fileName;
     }
 
     public function setFilePath(string $filePath): static
