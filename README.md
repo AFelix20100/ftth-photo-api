@@ -64,7 +64,6 @@ J'ai supposé que lors de la création d'une "commande", une référence de comm
 Si vous souhaitez que les références de prestation et de commande interne ne soient pas générées simultanément, il suffit de désactiver la fonction `validateReferences()` dans la classe `Command.php`.
 
 
-
 ## :sparkles: Fonctionnalités ##
 
 :heavy_check_mark: CRUD des commandes internes;\
