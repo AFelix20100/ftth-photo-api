@@ -6,7 +6,7 @@
   <!-- <a href="https://ftthphotoapi.netlify.app">Demo</a> -->
 </div>
 
-<h1 align="center">Ftth Photo Api 🔌</h1>
+<h1 align="center">FTTH PHOTO API 🔌</h1>
 
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/AFelix20100/ftth-photo-api?color=56BEB8">
@@ -58,6 +58,8 @@ La fonctionnalité d'envoi d'image est en cours de développement.
 :heavy_check_mark: Récupération des photos avec la référence d'une prestation;\
 :heavy_check_mark: Récupération des photos avec la référence d'une intervention;\
 :heavy_check_mark: Documentation API Plateform généré;\
+:heavy_check_mark: Gestion des erreurs;\
+:heavy_check_mark: Traduction des actions des différents endpoints;\
 
 
 ## :rocket: Technologies ##
@@ -72,7 +74,7 @@ Voici la liste des outils et technologies utilisés pour ce projet.
 - [Git v2.40.0](https://git-scm.com/)
 - [Symfony CLI v5.10.2](https://symfony.com/download)
 
-## :white_check_mark: Exigences
+## :white_check_mark: Exigences ##
 
 Pour faire fonctionner ce projet, vous devez avoir les outils suivants installés :
 
@@ -85,7 +87,23 @@ Pour faire fonctionner ce projet, vous devez avoir les outils suivants installé
 
 Pour les versions spécifiques de ces outils, veuillez vous référer à la section [Technologies](#rocket-technologies).
 
-## :checkered_flag: Démarrage rapide
+## :gear: Configuration de la base de données ##
+
+Avant de démarrer le projet, vous devez configurer l'URL de la base de données. 
+
+1. Ouvrez le fichier `.env` à la racine du projet.
+2. Modifiez la ligne suivante pour correspondre à l'URL de votre base de données :
+
+```bash
+    DATABASE_URL="mysql://user:password@127.0.0.1:3306/your_database_name"
+```
+
+   Remplacez `user`, `password`, `127.0.0.1`, `3306`, et `your_database_name` par vos propres informations de connexion.
+
+3. Sauvegardez le fichier `.env` après avoir apporté les modifications nécessaires.
+4. Par défaut, le projet est configuré pour l'environnement de développement.
+
+## :checkered_flag: Démarrage rapide ##
 
 Suivez ces étapes pour lancer rapidement le projet sur votre machine locale :
 
@@ -118,7 +136,7 @@ $ symfony server:start
 
 ## :memo: Licence ##
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
+Ce projet est sous licence MIT.
 
 
 Fait par <a href="https://github.com/AFelix20100" target="_blank">Félix-Vincent ARTHUR</a>
