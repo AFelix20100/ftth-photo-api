@@ -27,23 +27,22 @@
 <hr> -->
 
 <p align="center">
-  <a href="#dart-about">À propos</a> &#xa0; | &#xa0; 
-  <a href="#sparkles-features">Fonctionnalités</a> &#xa0; | &#xa0;
-  <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-requirements">Exigences</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-starting">Démarrage rapide</a> &#xa0; | &#xa0;
-  <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Auteur</a>
+  <a href="#dart-À-propos">À propos</a> &#xa0; | &#xa0; 
+  <a href="#sparkles-Fonctionnalités">Fonctionnalités</a> &#xa0; | &#xa0;
+  <a href="#rocket-Technologies">Technologies</a> &#xa0; | &#xa0;
+  <a href="#white_check_mark-Exigences">Exigences</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-Démarrage-rapide">Démarrage rapide</a> &#xa0; | &#xa0;
+  <a href="#memo-licence">Licence</a> &#xa0; | &#xa0;
+  <a href="https://github.com/AFelix20100" target="_blank">Auteur</a>
 </p>
 
 <br>
 
-## :dart: about ##
+## :dart: À propos ##
 
 Describe your project
 
-## :sparkles:   <a href="#sparkles-features">Fonctionnalités</a> &#xa0; | &#xa0;
- ##
+## :sparkles: Fonctionnalités ##
 
 :heavy_check_mark: CRUD des commandes internes;\
 :heavy_check_mark: CRUD des prestations;\
@@ -58,7 +57,7 @@ Describe your project
 :heavy_check_mark: Documentation API Plateform généré;\
 
 
-## :rocket: technologies ##
+## :rocket: Technologies ##
 
 Voici la liste des outils et technologies utilisés pour ce projet.
 
@@ -70,7 +69,7 @@ Voici la liste des outils et technologies utilisés pour ce projet.
 - [Git v2.40.0](https://git-scm.com/)
 - [Symfony CLI v5.10.2](https://symfony.com/download)
 
-## :white_check_mark: requirements
+## :white_check_mark: Exigences
 
 Pour faire fonctionner ce projet, vous devez avoir les outils suivants installés :
 
@@ -83,7 +82,7 @@ Pour faire fonctionner ce projet, vous devez avoir les outils suivants installé
 
 Pour les versions spécifiques de ces outils, veuillez vous référer à la section [Technologies](#rocket-technologies).
 
-## :checkered_flag: starting
+## :checkered_flag: Démarrage rapide
 
 Suivez ces étapes pour lancer rapidement le projet sur votre machine locale :
 
@@ -114,7 +113,7 @@ $ symfony server:start
 
 ```
 
-## :memo: License ##
+## :memo: Licence ##
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
